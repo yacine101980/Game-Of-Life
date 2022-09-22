@@ -1,0 +1,27 @@
+plugins {
+    id 'application'
+    id "org.openjfx.javafxplugin" version "0.0.10"
+}
+
+javafx {
+    version = "17"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation('org.junit.jupiter:junit-jupiter-api:5.8.0',
+            'org.assertj:assertj-core:3.20.2')
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+application {
+    mainClassName = "GameOfLifeApplication"
+}
