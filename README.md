@@ -13,7 +13,7 @@ Le jeu se déroule sur une grille à deux dimensions dont les cases qu’on appe
 
 Le but de ce TP est de compléter le code fourni par le dépôt afin d'obtenir un simulateur de jeu de la vie.
 
-## Membre du projet
+## Membres du projet
 
-- NOM, prénom, du participant
-
+- NOM, prénom, du membre 1
+- NOM, prénom, du membre 2
