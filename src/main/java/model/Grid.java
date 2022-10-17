@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -91,17 +92,52 @@ public class Grid implements Iterable<Cell> {
 
     // TODO: Écrire une version correcte de cette méthode.
     public List<Cell> getNeighbors(int rowIndex, int columnIndex) {
-        return null;
+        ArrayList neighbors = new ArrayList();
+        for (int i = 0; i < getNumberOfRows(); i++) {
+            for (int j = 0; j < getNumberOfColumns(); j++) {
+                if (Math.abs(rowIndex-i)<=1 && Math.abs(columnIndex-j)<=1) {
+                    if (!(i == rowIndex && j == columnIndex)) {
+                        neighbors.add(cells[i][j]);
+                    }
+                }
+            }
+        }
+        return neighbors;
     }
 
     // TODO: Écrire une version correcte de cette méthode.
     public int countAliveNeighbors(int rowIndex, int columnIndex) {
-        return 0;
+        int aliveNeighbors = 0;
+        getNeighbors(rowIndex, columnIndex);
+        for (int i = 0; i < getNeighbors(rowIndex, columnIndex).size(); i++) {
+            if ( getNeighbors(rowIndex, columnIndex).get(i).isAlive()) {
+                aliveNeighbors++;
+            }
+        }
+        return aliveNeighbors;
     }
 
     // TODO: Écrire une version correcte de cette méthode.
     public CellState calculateNextState(int rowIndex, int columnIndex) {
-        return null;
+        if (getCell(rowIndex,columnIndex).isAlive()) {
+            if (countAliveNeighbors(rowIndex, columnIndex) == 2 || countAliveNeighbors(rowIndex, columnIndex) == 3 ) {
+                return cells[rowIndex][columnIndex].getState();
+            }
+            return CellState.DEAD;
+        }
+        if (countAliveNeighbors(rowIndex, columnIndex) == 3) {
+            int red = 0;
+            for (int i = 0; i < getNeighbors(rowIndex, columnIndex).size(); i++) {
+                if( getNeighbors(rowIndex, columnIndex).get(i).getState()==CellState.redALIVE) {
+                    red++;
+                }
+            }
+            if (red>=2) {
+                return CellState.redALIVE;
+            }
+            return CellState.blueALIVE;
+        }
+        return CellState.DEAD;
     }
 
 
@@ -109,12 +145,22 @@ public class Grid implements Iterable<Cell> {
     // TODO: Écrire une version correcte de cette méthode.
     public CellState[][] calculateNextStates() {
         CellState[][] nextCellState = new CellState[getNumberOfRows()][getNumberOfColumns()];
+        for (int i = 0; i < getNumberOfRows(); i++) {
+            for (int j = 0; j < getNumberOfColumns(); j++) {
+                nextCellState[i][j] = calculateNextState(i ,j);
+            }
+        }
         return nextCellState;
     }
 
     // TODO: Écrire une version correcte de cette méthode.
     public void updateStates(CellState[][] nextState) {
+        for (int i = 0; i < getNumberOfRows(); i++) {
+            for (int j = 0; j < getNumberOfColumns(); j++) {
+                cells[i][j].setState(nextState[i][j]);
+            }
 
+        }
     }
 
     /**
@@ -132,7 +178,7 @@ public class Grid implements Iterable<Cell> {
      */
     // TODO: Écrire une version correcte de cette méthode.
     public void updateToNextGeneration() {
-
+        updateStates(calculateNextStates());
     }
 
     /**
@@ -140,7 +186,11 @@ public class Grid implements Iterable<Cell> {
      */
     // TODO: Écrire une version correcte de cette méthode.
     public void clear() {
-
+        for (int i = 0; i < getNumberOfRows(); i++) {
+            for (int j = 0; j < getNumberOfColumns(); j++) {
+                cells[i][j].setState(CellState.DEAD);
+            }
+        }
     }
 
     /**
@@ -151,6 +201,22 @@ public class Grid implements Iterable<Cell> {
      */
     // TODO: Écrire une version correcte de cette méthode.
     public void randomGeneration(Random random) {
-
+        Random r = new Random();
+        for (int i = 0; i < getNumberOfRows(); i++) {
+            for (int j = 0; j < getNumberOfColumns(); j++) {
+                if (random.nextBoolean()) {
+                    int d = r.nextInt(2);
+                    if (d==0) {
+                        cells[i][j].setState(CellState.redALIVE);
+                    }
+                    if (d==1){
+                        cells[i][j].setState(CellState.blueALIVE);
+                    }
+                }
+                if (!(random.nextBoolean())){
+                    cells[i][j].setState(CellState.DEAD);
+                }
+            }
+        }
     }
 }

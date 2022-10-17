@@ -6,7 +6,8 @@ import javafx.scene.paint.Color;
  * {@link CellState} instances represent the possible states of a {@link CellState}.
  */
 public enum CellState {
-    ALIVE(true, Color.RED),
+    redALIVE(true, Color.RED),
+    blueALIVE(true, Color.BLUE),
     DEAD(false, Color.WHITE);
 
     public final boolean isAlive;
