@@ -15,5 +15,4 @@ Le but de ce TP est de compléter le code fourni par le dépôt afin d'obtenir u
 
 ## Membres du projet
 
-- NOM, prénom, du membre 1
-- NOM, prénom, du membre 2
+- BOUCENNA, Yacine, groupe 3
